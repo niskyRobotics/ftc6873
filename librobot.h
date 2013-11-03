@@ -55,4 +55,9 @@ void calcoutput(int ns, int ew, int rotation, TOmniOutput &output){
 	return;
 }
 
-//todo smoothing
+void smoothUpdate(TOmniOutput &targetVals, TOmniOutput &output){
+	output.motorNE=output.motorNE+(output.motorNE>targetVals.motorNE)?-1:+1
+	output.motorNW=output.motorNW+(output.motorNW>targetVals.motorNW)?-1:+1
+	output.motorSE=output.motorSE+(output.motorSE>targetVals.motorSE)?-1:+1
+	output.motorSW=output.motorSW+(output.motorSW>targetVals.motorSW)?-1:+1
+}
