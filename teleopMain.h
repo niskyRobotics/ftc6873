@@ -4,8 +4,8 @@
 #pragma config(Sensor, S2,     ,               sensorI2CMuxController)
 #pragma config(Motor,  mtr_S2_C1_1,     driveFrLt,     tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S2_C1_2,     driveFrRt,     tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C2_1,     driveBkLt,     tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C2_2,     driveBkRt,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S2_C2_1,     driveBkRt,     tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S2_C2_2,     driveBkLt,     tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S2_C3_1,     armL,          tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S2_C3_2,     flagMtr,       tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C1_1,    servo1,               tServoNone)
@@ -21,9 +21,20 @@
 
 
 void teleMain(){
+	int motorLeft = 0;
+	int motorRight = 0;
     while(true){
 				getJoystickSettings(joystick);
-				//handle joy1btn(int num) and joystick.joy1[foo] values in the while(true) loop.
-				//The program will end automatically with the end of the match due to the action of the Samantha FCS system. No need to break the loop.
+
+				motorLeft = (motorLeft + joystick.joy1_x1) / 2;
+				motorRight = (motorRight + joystick.joy1_x1) / 2;
+				motor[driveFrLt] = motorLeft;
+				motor[driveBkLt] = motorLeft;
+				motor[driveFrRt] = motorRight;
+				motor[driveBkLt] = motorRight;
+				if(joy2Btn(5)==1){motor[flagMtr] = 10;}
+				if(joy2Btn(6)==1){motor[flagMtr] = -10;}
+				if(joy2Btn(7)==1){motor[flagMtr] = 100;}
+				if(joy2Btn(8)==1){motor[flagMtr] = -100;}
 			}
 }
