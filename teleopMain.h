@@ -1,13 +1,11 @@
 #pragma config(Hubs,  S1, HTServo,  none,     none,     none)
-#pragma config(Hubs,  S2, HTMotor,  HTMotor,  HTMotor,  none)
+#pragma config(Hubs,  S2, HTMotor,  HTMotor,  none,     none)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     ,               sensorI2CMuxController)
-#pragma config(Motor,  mtr_S2_C1_1,     driveFrLt,     tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C1_2,     driveFrRt,     tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C2_1,     driveBkLt,     tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C2_2,     driveBkRt,     tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C3_1,     flagMtr,          tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S2_C3_2,     armL,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S2_C1_1,     driveLt,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S2_C1_2,     driveRt,       tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S2_C2_1,     flag,          tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S2_C2_2,     rack,          tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C1_1,    servo1,               tServoNone)
 #pragma config(Servo,  srvo_S1_C1_2,    servo2,               tServoNone)
 #pragma config(Servo,  srvo_S1_C1_3,    servo3,               tServoNone)
@@ -21,24 +19,19 @@
 
 
 void teleMain(){
-	TOmniOutput motorEnergization;
-	while(true){
-		getJoystickSettings(joystick);
-		//TOmniOutput tempPreSmooth;
-//		calcoutput(joy1_y2, joy1_x2, joy1_x1, tempPreSmooth);
-//		smoothUpdate(tempPreSmooth, motorEnergization);
-///		motor[driveNE]=motorEnergization.motorNE;
-//		motor[driveSE]=motorEnergization.motorSE;
-//		motor[driveNW]=motorEnergization.motorNW;
-	//	motor[driveSW]=motorEnergization.motorSW;
-		if(joy1Btn(6)==1){motor[flagMtr]=100;}
-		else if(joy1Btn(5)==1){motor[flagMtr]=-100;}
-		motor[driveSE]=joy1_y1;
-		motor[driveNW]=-1*joy1_y1;
-		motor[driveSW]=joy1_x1;
-		motor[driveNE]=-1*joy1_x1;
-	//	else{motor[flagMtr]=0;}
-	//	wait1Msec(1);
+	waitForStart(); //need this?
+	int motorLeft = 0;
+	int motorRight = 0;
+    while(true){
+				getJoystickSettings(joystick);
 
-	}
+				motorLeft = (motorLeft + joystick.joy1_x1) / 2;
+				motorRight = (motorRight + joystick.joy1_x1) / 2;
+				motor[driveLt] = motorLeft;
+				motor[driveRt] = motorRight;
+				if(joy2Btn(5)==1){motor[flag] = 10;}
+				if(joy2Btn(6)==1){motor[flag] = -10;}
+				if(joy2Btn(7)==1){motor[flag] = 100;}
+				if(joy2Btn(8)==1){motor[flag] = -100;}
+			}
 }
