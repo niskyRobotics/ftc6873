@@ -25,7 +25,7 @@ task main()
 		servoTarget[servo1] = sval;
 		nxtDisplayCenteredTextLine(2, "%d", sval);
 		if(joy1Btn(1) == 1){
-			sval = sval+5;
+			sval = 230;
 			while(joy1Btn(1) == 1){}
 		}
 		sval += (joystick.joy1_y1/50);

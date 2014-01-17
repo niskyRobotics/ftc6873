@@ -123,6 +123,12 @@ HTIRS2readAllDCStrength(HTIRS2, dcS1, dcS2, dcS3, dcS4, dcS5);
 
 
 	wait10Msec(IRSEEK_POST_CUTOFF_WAIT);
+	servo[servo1] = 244;
+	wait10Msec(50);
+	servo[servo1] = 5;
+	wait10Msec(50);
+
+
 	motor[driveLt]=30;
 	motor[driveRt]=-30;
 	wait10Msec(50);
